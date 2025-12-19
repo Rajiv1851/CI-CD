@@ -19,7 +19,8 @@ This setup reflects **real-world DevOps deployment practices**.
 ## 🏗 CI/CD Architecture Diagram
 
 <p align="center">
-  <img src="images/cicd-architecture.png" alt="CI/CD Architecture Diagram" width="800"/>
+  <img src="https://raw.githubusercontent.com/Rajiv1851/basic/main/images/cicd-architecture.png
+" alt="CI/CD Architecture Diagram" width="800"/>
 </p>
 
 ---
