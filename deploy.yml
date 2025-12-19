@@ -1,0 +1,45 @@
+---
+- name: Deploy Node.js App
+  hosts: ec2
+  become: yes
+  vars:
+    app_path: /home/ec2-user/myapp
+    node_port: 3000
+
+  tasks:
+    - name: Ensure Node.js and PM2 installed
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - nodejs
+        - npm
+
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Copy application files
+      copy:
+        src: ./app/
+        dest: "{{ app_path }}"
+        owner: ec2-user
+        group: ec2-user
+        mode: 0755
+
+    - name: Start app with PM2
+      command: pm2 start {{ app_path }}/app.js --name myapp --update-env
+      args:
+        chdir: "{{ app_path }}"
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Restart Nginx to apply changes
+      service:
+        name: nginx
+        state: restarted
